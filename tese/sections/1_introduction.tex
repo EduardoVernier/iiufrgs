@@ -1,0 +1,47 @@
+%!TEX root = ../report.tex
+\chapter{Introduction}
+Modern software projects are incredibly large and complex systems, specially considering that they evolve in time.
+
+Let us use the Eclipse IDE as an example. According to the Eclipse Neon press release, "This is the eleventh year the Eclipse community has shipped a coordinated release of multiple Eclipse projects. There are 84 projects in the Neon release, consisting of over 69 million lines of code, with contribution by 779 developers, 331 of whom are Eclipse committers" \cite{ref:eclipse}.
+Another good example is the GNU Image Manipulation Program, that has been actively under development for over 20 years \cite{ref:gimp}.
+
+In this work, we will enter the realms of the Information Visualization field, and, more specifically, the Software Visualization branch. "Software visualization is concerned with the static or animated 2D or 3D visual representation of information about software systems based on their structure, history, or behavior in order to help software engineering tasks" \cite{reg:diehl07}.
+
+These tasks can be performed at various levels helping to increase productivity and code quality. For instance, programmers might use these techniques in order to assist in the understanding of large code bases. Testers might find them useful to help guiding their efforts more efficiently. Architects might use visualization to compare the code being produced with the original design. Project managers and business leaders might use them in order to have an overview of long-term projects or access the quality of process and product decision.
+
+Our goal with this project is assisting users in the understanding the evolution of software projects. Our work attempts to provide effective visualization techniques that help revealing the truth hidden behind mountains of abstract time dependent data.
+
+According to Spence, the three fundamental ingredients for any infovis application are representation, presentation, and interaction \cite{ref:spence07}. In this text, we will explain how we shaped these elements to our context in order to make it easier for users to understand, compare, correlate, and extract useful insight from software projects. The techniques used, challenges faced and the reasoning behind design choices are also detailed in this text.
+
+%TODO: fix this bit
+Section \ref{sec:metrics} discusses how a Version Control System and software quality metric extractor tool are used to generate a time-dependent multivariate dataset. Section \ref{sec:visu} details the visualization techniques used to provide insight into the data. Section \ref{sec:exo} provides an analysis of the Google ExoPlayer project's evolution using the aforementioned techniques. Section \ref{sec:fut} suggests some possible future directions for the project and Section \ref{sec:conc} concludes the report.
+
+\section{Datasets}
+The Scientific Visualization field focuses on data that has physical placement. For instance, when we see the 3D rendered results of an MRI scan of a brain, the data presented can be very naturally understood, as we already have a mental map of what a brain looks like. Software source code, conversely, has no inherent physical or spacial placement. Therefore, we are faced with the added challenge of introducing appropriate visual representation for such data and relations. Additionally, the information encoded in software source files cannot be naturally mapped to a traditional scivis dataset model usually consisting of a region in $\mathbb{R}^{n}$ sampled in multiple points that can have their values interpolated in this space \cite{ref:scivis}.
+
+On this project, we will model evolving software projects as multivariate, or multidimensional, time-dependent datasets. For each data point on a multidimensional dataset, also called a record, sample, observation, or instance, we can measure many properties of the underlying phenomenon, each of these being a different variable, attribute, or dimension. Thus, a multidimensional dataset can be thought of as a table of \textit{n} rows (or observations) and \textit{m} columns. When \textit{m} is larger than roughly 5, this data is considered to be high-dimensional .
+
+What is meant by time-dependent, is that our dataset is composed of a number \textit{t} of observations in time, each of these being an individual multidimensional dataset.
+
+To exemplify, imagine that a medical research laboratory is tracking the development of a community of a hundred infants in order to get insight on the symptoms of an epidemic disease (e.g. Zika virus). During the first year of infancy, tests are run weekly and ten attributes such as weight, blood composition, MRI scan data, cognitive test results, among others are collected for each child.
+
+Understanding the evolution and tracking interesting patterns or correlations on such multidimensional time-dependent dataset for large values of \textit{n} (number of infants), \textit{m} (number of collected attributes) and \textit{t} (number of time moments) is a very challenging task.
+
+Several techniques have been proposed to visualize similarity and change on temporal high-dimensional data. According to Aigner et al. \cite{ref:timedata}, current techniques can be categorized as abstract or spatial, univariate or multivariate, linear or cyclic, instantaneous or interval-based, static or dynamic, and two or three-dimensional.
+
+In this project, we will use a dimensionality reduction technique that provides a scalable alternative to creating projections that evolve smoothly over time eliminating unnecessary temporal variability \cite{ref:dtsne}. The technique is summarized in section \ref{sec:proj}.
+
+\section{Research Goal}
+The main goal of this project is to provide a tool that assists in the task of understanding the evolution of software entities. With such tool, professionals that work with software both in the academia and industry might develop a better understanding of software dynamics, and, through visualization techniques, uncover previously unknown aspects of code bases or even confirm hypothesis, being then able to make more knowledgeable decisions about refactoring, maintenance, delivery of software projects, among others.
+
+To present the tool's requirements, we will divide it in two: an extractor tool that explores repositories and extract metrics from a given number of revisions; and a visualization tool that takes the generated datasets and present them in a coherent visual manner.
+
+It would be interesting to have at our disposal a technique that given two software entities, returns a numerical value between 0 and 1 telling how similar they are. This way, understanding the dynamics of the implicit structure would be much easier. Given that such technique doesn't exists, we will use an approach similar to the one used to measure image similarity, in which features extraction is used to estimate the distance (or similarity) between two images  \cite{ref:imagefeatures}. In our context, instead of using techniques such as edge detection, blob detection, template matching and thresholding to build a feature vector, we will use a set of software quality metrics (e.g. cyclomatic complexity, lines of code, lack of cohersion) as an expression of the information present on the software entities.
+
+The metric extractor tool must be relatively fast and scalable up to hundreds of thousand lines of code, it must be fully automated (i.e. require no user interaction when analyzing a new revision) and easy to set up. It must also be able to analyze Java code and produce a reasonable amount of metrics. Java was chosen as the main language because of the large collection of relevant active open source projects that use it, and in order to accommodate for metric extractor tools' limitations as well as simplify the data representation, we chose to fix it as the only supported language.
+
+The visualization tool must provide insight into both the explicit structure of the project, captured by its physical or logical hierarchy and dependencies, and implicit structure, i.e. aspects of the recorded data which create groups of highly-related entities. Therefore it is indispensable that both intra and inter-file metric extraction are supported by the extractor tool (see Section \ref{sec:understand}).
+
+The visualization tool must provide real time performance, it should be developed using multi-platform technology and contain sensible interaction mechanisms.
+
+Even though software metrics are the main research subject, the tool must be built to accept any time-dependent multivariate dataset, hence, nothing stops it from being effective at analyzing the crime rate evolution on a metropolitan area, for example.
