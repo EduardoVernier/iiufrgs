@@ -1,18 +1,18 @@
 %!TEX root = ../report.tex
-\section{Metric Collection} \label{sec:metrics}
+\chapter{Metric Collection} \label{sec:metrics}
 
-Software Quality Metrics are measurements that relate to properties of a piece of software or its specifications. They can generate useful insight in various levels of granularity (e.g. project level, package level, class level, method level), which can lead to a better understanding of the code base. These insights might influence several decisions, ranging from where to place refactoring and performance optimization effort to budget planning, optimal personnel task assignments, and cost estimation.
+Software Quality Metrics are measurements that relate to properties of a piece of software or its specifications. They can generate useful insight in various levels of granularity (e.g. project level, package level, class level, method level) and can lead to a better understanding of the code base. These insights might influence several decisions, ranging from where to place refactoring and performance optimization effort to budget planning, optimal personnel task assignments, and cost estimation.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/pipeline.png}
-  \caption{Data extraction pipeline}
-  \label{fig:data_pipeline}
+	\centering
+	\includegraphics[width=\textwidth]{figures/pipeline.png}
+	\caption{Data extraction pipeline}
+	\label{fig:data_pipeline}
 \end{figure}
 
 Figure \ref{fig:data_pipeline} illustrates the pipeline that takes a software repository and outputs the two datasets (A and B) that are used in our visualization tool.
 
-The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as CVS, Subversion, Perforce, Mercurial, Bazaar and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency and simplicity to "walk" between revisions are crucial. More details on the discussion are presented on section \ref{sec:git}
+The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as CVS, Subversion, Perforce, Mercurial, Bazaar and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency in the use of resources, performance, and simplicity to "walk" between revisions, are taken into consideration. More details on the discussion are presented on section \ref{sec:git}
 
 The choice of Metric Extraction tool is discussed in section \ref{sec:understand}.
 
@@ -20,17 +20,15 @@ The method developed to take revision files and generate a collection of raw met
 
 The need for filtering and normalization of the acquired datasets is explained on Section \ref{sec:filtering}.
 
-The dimensionality reduction technique used to generate the projections is presented on Section \ref{sec:proj}.
-
-\subsection{Version Control System} \label{sec:git}
+\section{Version Control System} \label{sec:git}
 
 In order to estimate VCS popularity we will use Google Trends data collected from January 2004 to November 2016 on the most used systems according to the 2015 Stack Overflow Developers Survey \cite{ref:stackoverflow}. Google Trends allows comparison between the number of Google searches related to a particular system relative to the total search volume. A world map also points out which is the most popular system in each country.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{figures/vcs_pop.png}
-  \caption{The variable in the graph represents the global search interest relative to the highest point on the chart through time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular as it once was.}
-  \label{fig:vcs_pop}
+	\centering
+	\includegraphics[width=\textwidth]{figures/vcs_pop.png}
+	\caption{The variable in the graph represents the global search interest relative to the highest point on the chart through time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular as it once was.}
+	\label{fig:vcs_pop}
 \end{figure}
 
 Based on this data, we can confirm that Git is currently the most popular VCS and that it's popularity is steadily increasing.
@@ -44,101 +42,103 @@ One of the reasons for the smaller repository size is that an SVN working direct
 Every time a commit is made in Git, the differences are not recorded, instead, it saves all modified files integrally and inserts their references to the commit tree. To be efficient, if files have not changed, they are not redundantly stored in disk, but a link to the previous identical file it has already stored is created. Therefore, Git thinks about its data dynamics as a stream of snapshots. The organization of a repository tree is depicted on Figure \ref{fig:git_architecture}.
 
 \begin{figure}[h]
-  \centering
-  \includegraphics[width=0.7\textwidth]{figures/git_architecture.png}
-  \caption{Git tree organization (image from https://www.hackerearth.com/)}
-  \label{fig:git_architecture}
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/git_architecture.png}
+	\caption{Git tree organization (image from https://www.hackerearth.com/)}
+	\label{fig:git_architecture}
 \end{figure}
 
 Subversion has the advantage of having a simpler way to navigate between revisions as it uses sequential revision identifiers (1,2,3,..), instead of Git's unpredictable SHA-1 hashes.
 
 Considering the popularity factor, full local repository backups with integral files, better performance and use of resources, we deemed Git as being a more suitable system for our context. Additionally, the well documented and maintained library \textit{libgit2} for C/C++ was fundamental for the choice of VCS.
 
-\subsection{Software Quality Metrics Extraction Tools} \label{sec:understand}
+\section{Software Quality Metrics Extraction Tools} \label{sec:understand}
 
-Our requirements for the Software Quality Metrics Extractor Tool regarded the quality and relevance of the metrics, strictness of input acceptance, i.e how it dealt with unbuildable code and missing references, project activity, overall performance and ease of set-up and integration. It is important for the understanding of the project dynamics to extract both intra-file metrics, i.e. those which can be computed simply by looking at a single file in isolation (e.g. LOC, average method complexity, average class cohesion) and inter-file metrics, which are metrics that look at the relations between entiries in different files (e.g. depth of a class hierarchy, average function-call-path length, metrics on the number of uses of a given symbol). The latter are significantly more complex to compute.
+Our requirements for the Software Quality Metrics Extractor Tool regarded the quality and relevance of the metrics, strictness of input acceptance (e.g. how it dealt with unbuildable code and missing references), project activity, overall performance and ease of set-up and integration. It is important for the understanding of the project dynamics to extract both intra-file metrics, i.e. those which can be computed simply by looking at a single file in isolation (e.g. number of lines of code, average method complexity, average class cohesion) and inter-file metrics, which are metrics that look at the relations between entities in different files (e.g. depth of a class hierarchy, average function-call-path length, metrics on the number of uses of a given symbol). The latter are significantly more complex to compute.
 
 Eight tools were tested in the metric extractor tools analysis phase of the study, out of which, four - CCCC, SourceMeter, iPlasma and CppCheck - were swiftly discarded due to design or performance misalignment with our goals. The remaining four tools - SonarQube, Analizo, CodePro Analytix and SciTools Understand - were subjected to a series of tests that would grade the suitability of each for our purposes.
 
 SonarQube is a very professional tool dedicated to continuous analysis and measurement of source code. It has complicated initial set-up and proved to be hard to integrate in our software. The quality of its outputted metrics wasn't on par with the other three tools and it’s performance wasn’t satisfactory either.
-Analizo, differently from the other three tools, is an academic project. It is easy to use and outputs a good amount of relevant metrics. Unfortunately, for complicated projects with many external or missing references, it struggled, taking over 30 minutes to analyse medium size repositories, rendering it unsuitable for our study.
+Analizo, differently from the other three tools, is an academic project. It is easy to use and outputs a good amount of relevant metrics. Unfortunately, for complicated projects with many external or missing references, it struggled, taking over 30 minutes to analyze medium size repositories, rendering it unsuitable for our study.
 
 CodePro Analytix and SciTools Understand fit all our requirements. Both are easy to use and integrate, flexible regarding the repositories they take as input, customizable in the parameterization of the metrics, fast, well-documented professional grade tools. Both output a good set of inter and intra-file metrics in various levels of granularity and in easy to work formats (xml and csv). We chose to work with Understand over Analytix in reason of the performance advantage one has over the other and the number of class level metrics they output (43 for Understand against Analytix’s 17). The full metric reference document provided by SciTool Understand is available at \cite{ref:und}.
 
 Table \ref{tab:und_ana_times} shows the performance comparison between the two tools for nine Open Source projects.
+% TODO: perhaps do a nice visualization of the table
+\begin{table}[ht]
+	\caption{Understand and Analytix analysis time for a single revision}
+	\centering
+	\label{tab:und_ana_times}
+	\begin{tabular}{c|c|c}
+		\hline
+		\textit{Project (KLOC)} & \textit{Analytix Time(s)} & \textit{Understand Time(s)} \\
+		\hline
+		\hline
+		JMeter (118)            & 23                        & 30                          \\
+		Checkstyle (95)         & 32                        & 32                          \\
+		Gitblit (77)            & 31                        & 20                          \\
+		JUnit (26)              & 17                        & 10                          \\
+		JavaGame (3)            & 10                        & 4                           \\
+		Netty (194)             & 70                        & 66                          \\
+		Guava (243)             & 120                       & 168                         \\
+		Zxing (42)              & 20                        & 11                          \\
+		MPAndroidChart (20)     & 14                        & 8                           \\
+		\hline
+	\end{tabular}
+\end{table}
 
-\begin{table}[h]
-  \centering
-  \caption{Understand and Analytix analysis time for a single revision}
-  \label{tab:und_ana_times}
-  \begin{tabular}{|l|l|l|}
+
+Table \ref{tab:comp} shows a score from 0 to 5 related to requirements measured on each tool. In order to fit all data in one table, we labeled the requirements in the following fashion:
+
+\begin{table}[ht]
+	%\caption{Uma tabela de Exemplo}
+	% OBS: não use \begin{center}, pois este aumenta o espaçamento entre a caption/legend e a tabela
+	% Para figuras, a aparência é melhor com o espaçamento extra
+	\centering
+	\begin{tabular}{c|c}
+		\hline
+		\textit{Requirement}          & \textit{Label} \\
+		\hline
+		\hline
+		Well maintained               & A              \\
+		Ease to set up                & B              \\
+		Easy to integrate             & C              \\
+		Tolerance of input acceptance & D              \\
+		Metric Quality                & E              \\
+		Performance                   & F              \\
+		\hline
+	\end{tabular}
+	%\legend{Fonte: Os Autores}
+	\label{tbl:ex1}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Tool Comparison: Some cells have dashes instead of values because the tool was considerate unsuitable before the attribute was measured.}
+	\label{tab:comp}
+	\begin{tabular}{c|c|c|c|c|c|c}
+		\hline
+		\textit{Tool} & \textit{A} & \textit{B} & \textit{C} & \textit{D} & \textit{E} & \textit{F} \\
+		\hline
     \hline
-    \textbf{Project (KLOC)} & \textbf{Analytix Time(s)} & \textbf{Understand Time(s)} \\ \hline
-    JMeter (118)            & 23                        & 30                          \\ \hline
-    Checkstyle (95)         & 32                        & 32                          \\ \hline
-    Gitblit (77)            & 31                        & 20                          \\ \hline
-    JUnit (26)              & 17                        & 10                          \\ \hline
-    JavaGame (3)            & 10                        & 4                           \\ \hline
-    Netty (194)             & 70                        & 66                          \\ \hline
-    Guava (243)             & 120                       & 168                         \\ \hline
-    Zxing (42)              & 20                        & 11                          \\ \hline
-    MPAndroidChart (20)     & 14                        & 8                           \\ \hline
+		CCCC          & 0          & 0          & -          & 0          & -          & -          \\
+		Source Meter  & 3          & 0          & -          & -          & -          & 1          \\
+		iPlasma       & -          & 4          & 0          & -          & 1          & 2          \\
+		CppCheck      & -          & -          & -          & -          & 0          & -          \\
+		SonarQube     & 5          & 1          & 3          & 4          & 2          & 2          \\
+		Analizo       & 3          & 3          & 3          & 2          & 5          & 2          \\
+		Analytix      & 5          & 4          & 5          & 5          & 5          & 4          \\
+		Understand    & 5          & 4          & 5          & 5          & 5          & 5          \\
+    \hline
   \end{tabular}
 \end{table}
 
+\section{Metric Extraction} \label{sec:extraction}
+Once we had settled on Git and Scitools Understand as VCS and metric collector, we built a tool that takes as argument a repository URL (e.g. \url{https://github.com/google/ExoPlayer.git}) or a path to an already checked-out on disk repository and outputs a collection of files that represent the metric values for a set of revisions. The number $n$ of revisions to be extracted from the repository is also given as an argument along with an optional $T_{start}$ -- $T_{end}$ interval. The JMeter project, for example, has currently 12,647 commits. If we input 100 as the number of revisions, the first to be extracted will be the last commited revision, after that, we walk 126 steps back on the commit tree and check-out the next one. The process continues consecutively for the remaining revisions.
 
-Table \ref{tab:comp} shows a score from 0 to 5 related to requirements measured on all tools. In order to fit all data in one table, we labeled the requirements in the following fashion:
+We thought of two approaches to perform metric extraction. The first would be to create $n$ directories and for each of them, check-out all source files from the $i$th revision. This is the easiest method but is slow and space inefficient, as files from previous commits that have not undergone changes must be decompressed and written to disk unnecessarily.
 
-\begin{table}[ht]
-    \caption{Uma tabela de Exemplo}
-    % OBS: não use \begin{center}, pois este aumenta o espaçamento entre a caption/legend e a tabela
-    % Para figuras, a aparência é melhor com o espaçamento extra
-    \centering
-        \begin{tabular}{c|c}
-          \hline
-          \textit{Requirement}  &   \textit{Label} \\
-          \hline
-          \hline
-          Well maintained & A \\
-          Ease to set up & B \\
-          Easy to integrate & C \\
-          Tolerance of input acceptance & D \\
-          Metric Quality & E \\
-          Performance  & F \\
-          \hline
-        \end{tabular}
-    \legend{Fonte: Os Autores}
-    \label{tbl:ex1}
-\end{table}
-
-
-Some cells have dashes instead of values because the tool was considerate unsuitable before the attribute was measured.
-
-
-\begin{table}[H]
-\centering
-\caption{Tool Comparison}
-\label{tab:comp}
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline
-\textbf{Tool} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} & \textbf{F} \\ \hline
-CCCC          & 0 & 0 & - & 0 & - & - \\
-Source Meter  & 3 & 0 & - & - & - & 1 \\
-iPlasma       & - & 4 & 0 & - & 1 & 2 \\
-CppCheck      & - & - & - & - & 0 & - \\
-SonarQube     & 5 & 1 & 3 & 4 & 2 & 2 \\
-Analizo       & 3 & 3 & 3 & 2 & 5 & 2 \\
-Analytix      & 5 & 4 & 5 & 5 & 5 & 5 \\
-Understand    & 5 & 4 & 5 & 5 & 5 & 5 \\
-\end{tabular}
-\end{table}
-
-\subsection{Metric Extraction} \label{sec:extraction}
-Once we have settled on Git and Scitools Understand as VCS and metric collector, we built a tool that takes as argument a repository URL (e.g. \url{https://github.com/GNOME/gimp.git}) or a path to an already checked-out on disk repository and outputs a collection of files that represent the metric values for a set of commits. The number $n$ of revisions to be extracted from the repository is also given as an argument along with an optional $T_{start}$ -- $T_{end}$ interval. The JMeter project, for example, has currently 12,647 commits. If we input 100 as the number of revisions, the first to be extracted will be the last commited revision, after that, we walk 126 steps back on the commit tree and check-out the next one. The process continues consecutively for the remaining revisions.
-
-There are two possible approaches to perform the metric extraction. The first would be to create $n$ directories and for each of them, check-out all source files from the $i$th revision. This is the easiest method but is very slow and space inefficient, as files from previous commits that have not undergone changes must be decompressed and written to disk unnecessarily.
-
-The second approach was the one we chose to work with. First, check-out every Java source file from the last revision to a single "dump" directory, disregarding the original directory structure. Considering Git keeps all it's past files compressed in the .git folder, this process is very fast and requires no online access to the repository --- this is crucial, because the operation is repeated several times.
+The second approach was the one we chose to work with. First, check-out every Java source file from the last revision to a single "dump" directory, disregarding the original directory structure. Considering Git keeps all it's past files compressed in the .git folder, this process is very fast and requires no online access to the repository --- this is crucial, considering the operation is repeated several times.
 
 With all files checked-out in the dump directory, all alphanumeric SHA-1 file and directory keys (which work as identifiers) listed in this commit are added to a Trie data structure. Understand then runs it's metric calculations and outputs an appropriately identified file to the \textit{metric} directory.
 
@@ -147,15 +147,15 @@ When the metric calculation is complete, it takes the next selected commit and, 
 The \textit{metric} directory for the JMeter project with 20 analysed revisions looks like Figure \ref{fig:jmeter_folder} where each file is CSV formatted collection of 43 attributes.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.6\textwidth]{figures/metric_dir.png}
-  \caption{Metric output file set}
-  \label{fig:jmeter_folder}
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/metric_dir.png}
+	\caption{Metric output file set}
+	\label{fig:jmeter_folder}
 \end{figure}
 
 More details and source code can be found at \url{https://github.com/EduardoVernier/metric-extractor}. The tool was implemented in C++ with the Qt framework.
 
-\subsection{Dataset Filtering and Normalization} \label{sec:filtering}
-Before the datasets are ready for the visualization two last steps are necessary. The first concerns the unsuitability of the dimensionality reduction technique to deal with dynamic datasets, i.e. collections where members are created or deleted between consecutive time moments. What this implies is that all classes that we are analysing must be present from the first selected commit up until the last one, which means that a considerable percentage of the project's classes must be filtered from the dataset. As far as we know, no multidimensional projection technique fits this requirement.
+\section{Dataset Filtering and Normalization} \label{sec:filtering}
+Before the datasets are ready for the visualization two last steps are necessary. The first concerns the unsuitability of current dimensionality reduction technique to deal with dynamic datasets, i.e. collections where members are created or deleted between consecutive time moments. What this implies is that all classes that we are analyzing must be present from the first selected commit up until the last one, which means that a considerable percentage of the project's classes must be filtered from the dataset. As far as we know, no multidimensional projection technique fits this requirement.
 
-The second step is normalization. This is necessary because some metric range from 0 to 1 (e.g comments ratio) and others don't have a specific delimited range (e.g lines of code), therefore the dimensionality reduction technique will associated different weights to different metric value changes (which is not ideal). To perform the data normalization, we must first extract the average value and standard deviation of each attribute. Then for each sample, we subtract the corresponding average and divide the result by the standard deviation. What this guarantees is that the average for each feature is zero and the standard deviation through time is one.
+The second step is normalization. This is necessary because some metric range from 0 to 1 (e.g comments ratio) and others don't have a specific delimited range (e.g lines of code), therefore the dimensionality reduction technique will associated different weights to different metric value changes (which is not ideal). To perform the data normalization, we must first extract the average value and standard deviation of each attribute. Then for each sample, we subtract the corresponding average and divide the result by the standard deviation. What this guarantees is that the average for each feature is zero and the standard deviation through time is one, allowing unbiased projection calculations. 
