@@ -1,2 +1,48 @@
 %!TEX root = ../vernier.tex
 \subsection{Glyphs} \label{sec:glyphs}
+The resulting dt-SNE projection is a set of points in 2D space, but we can still add a lot of information to the representation by means of color mapping, through glyphs size and shape, creating connection between points, and even by using the background's empty space to encode some other feature.
+
+Figure \ref{fig:count_line} illustrates the initial tool set-up. Both the radius of the circular glyph and color are set to encode the number of lines of code metric. Right away we can start to identify cluster of points, indicating similarity on the $\mathbb{R}^{n}$ space, and outliers.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/count_line.png}
+  \caption{LOC metric displayed in both radius and color attributes}
+  \label{fig:count_line}
+\end{figure}
+
+One example of use case is to change the color mapping to represent another metric. On figure \ref{fig:max_inh_tree}, the maximum inheritance tree depth is coded in the glyph's color.This allow us to reason about the similarity relationship between entities in relation to class size (given by the radius) and the number of intermediate classes between each data point and the root class of its inheritance tree.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/max_inh_tree.png}
+  \caption{LOC metric displayed in both radius and color attributes}
+  \label{fig:max_inh_tree}
+\end{figure}
+
+In order to add information about change of metric value to the projection, we have designed the glyph illustrated on figure \ref{fig:glyphs1}. The glyph's radius represents the normalized value of the metric in the current revision, and the angle of the pie section amounts to the percentual change in metric value from revision $T_{n-1}$ to $T_{n}$. If the metric increases in value, a pie section of larger radius is added to the top of the glyph, otherwise a pie section of smaller radius is placed on the bottom of the glyph representing the reduction percentage.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{figures/glyphs_1.png}
+  \caption{Glyphs portraying 20\% increase and reduction on metric value}
+  \label{fig:glyphs1}
+\end{figure}
+
+Although it's an interesting design, it has one major flaw: 80\% increase and 20\% decrease in value are represented by the same form. This issue is fixed on the glyph shown on Figure \ref{fig:glyphs2}, where the decrease is portrayed by the removal of a pie section.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{figures/glyphs_2.png}
+  \caption{Revised glyph}
+  \label{fig:glyphs2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figures/glyphs_3.png}
+  \caption{Set of entities with glyph's shape, radius and color representing the current value and change for the Lines of Code metric.}
+  \label{fig:glyphs3}
+\end{figure}
+
+In the application, the pie section is only drawn if the change in metric value is higher than 1\%, as shown in Figure \ref{fig:glyphs3}.
