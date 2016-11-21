@@ -1,0 +1,37 @@
+%!TEX root = ../vernier.tex
+\section{Linking the Views} \label{sec:linking}
+So far we have three views. A projection view on the left, a hierarchical view on the right, that by default displays the Squarified Treemap, and if solicited through the UI, an evolution view on the bottom.
+
+Selecting or brushing elements or groups of elements on one of the views, highlights them on the others. This is a simple mechanism that attempts to support the visualization of correlation between $\mathbb{R}^{n}$ similarity, project structure and metric evolution. Its downside is that it relies on having to move the user's attention from one view to the next. In this section, we experiment with ways of hinting information about hierarchy on top of the projection (which as far as we are concerned, no one has attempted to on the literature) and vice versa.
+
+For the projection, we've developed a technique based on force-directed graph layout that links each class to its hierarchical parent. Points in the projection (i.e. classes) are constrained to their original $\mathbb{R}^{2}$ positions (leaf nodes) and package representative nodes are free to move according to the forces acting upon them (non leafs).
+
+In this graph, each class point connects to its package representative. In turn, every package representative node connects to the tree root node.
+
+Each node is capable of generating attraction and repulsion forces. Two linked nodes attract each other with a force linearly proportional to their distance. Additionally, each node repels all other nodes with a force that degrades quadratically with their pair-wise distance and is scaled by the node's radius in order to try to avoid overlap.
+
+If a node is able to move (i.e. package representative or root), the sum of the forces acting upon it as well as its current velocity dictate its position on the next iteration, creating a system that simulates particle momentum. This system iterates until it reaches equilibrium, which is only broken when we move to the next revision and node positions change. In which case, the system smoothly transitions to a new stable configuration.
+
+Figure \ref{fig:hier_graph_synth} is an example of a stable configuration for a simple hierarchy. Figure \ref{fig:hier_sim_graph} shows the same scenario for a more complex dataset (117 classes). With this number of classes it is already impossible to get any hierarchical insight. But if we are only interested in understanding the $\mathbb{R}^{n}$ neighborhood of a couple of packages, figure \ref{fig:hier_two_sim_graph} shows that it is possible.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/hier_graph_synth.png}
+	\caption{Linking nodes hierarchically on a synthetic projection}
+	\label{fig:hier_graph_synth}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/hier_sim_graph.png}
+	\caption{Linking nodes hierarchically on a synthetic projection}
+	\label{fig:hier_sim_graph}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/hier_two_sim_graph.png}
+	\caption{Linking nodes hierarchically on a synthetic projection}
+	\label{fig:hier_two_sim_graph}
+\end{figure}
