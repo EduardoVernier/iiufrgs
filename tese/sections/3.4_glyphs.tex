@@ -6,12 +6,12 @@ Figure \ref{fig:count_line} illustrates the initial tool set-up. Both the radius
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{figures/count_line.png}
+  \includegraphics[width=0.7\textwidth]{figures/count_line.png}
   \caption{LOC metric displayed in both radius and color attributes}
   \label{fig:count_line}
 \end{figure}
 
-One example of use case is to change the color mapping to represent another metric. On figure \ref{fig:max_inh_tree}, the maximum inheritance tree depth is coded in the glyph's color.This allow us to reason about the similarity relationship between entities in relation to class size (given by the radius) and the number of intermediate classes between each data point and the root class of its inheritance tree.
+One example of use case is to change the color mapping to represent another metric. On figure \ref{fig:max_inh_tree}, the maximum inheritance tree depth metric for each class is coded in the glyph's color. This rich visualization allows us to reason about three different aspects of the data: entities's similarity (given by position), class size (given by the radius), and the number of intermediate classes between each data point and the root class of its inheritance tree (encoded in the color).
 
 \begin{figure}[H]
   \centering
@@ -29,7 +29,7 @@ In order to add information about change of metric value to the projection, we h
   \label{fig:glyphs1}
 \end{figure}
 
-Although it's an interesting design, it has one major flaw: 80\% increase and 20\% decrease in value are represented by the same form. This issue is fixed on the glyph shown on Figure \ref{fig:glyphs2}, where the decrease is portrayed by the removal of a pie section.
+Although it's an interesting design, it has one major flaw: 80\% increase and 20\% decrease in value are represented by the same shape. This issue is fixed on the glyph shown on Figure \ref{fig:glyphs2}, where the decrease is portrayed by the removal of a pie section. In the application, the pie section is only drawn if the change in metric value is higher than $\pm1\%$, as shown in Figure \ref{fig:glyphs4}.
 
 \begin{figure}[H]
   \centering
@@ -40,9 +40,9 @@ Although it's an interesting design, it has one major flaw: 80\% increase and 20
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.4\textwidth]{figures/glyphs_3.png}
-  \caption{Set of entities with glyph's shape, radius and color representing the current value and change for the Lines of Code metric.}
-  \label{fig:glyphs3}
+  \includegraphics[width=0.5\textwidth]{figures/glyphs_4.png}
+  \caption{Representation of 4 different aspects of the data.}
+  \label{fig:glyphs4}
 \end{figure}
 
-In the application, the pie section is only drawn if the change in metric value is higher than 1\%, as shown in Figure \ref{fig:glyphs3}.
+What Figure \ref{fig:glyphs4} accomplishes is quite interesting. In a small space, we've encoded 4 different aspects of the data: similarity (position), class size (glyph radius), change in class size (delta pie slice size), and average cyclomatic complexity value for each class's methods (color). And best of all, without any clutter or misinformation.

@@ -28,7 +28,7 @@ Combining colormaps with the hierarchical display techniques, we can start to un
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{figures/colormap_hier.png}
-  \caption{}
+  \caption{Treemap and Sunburst Diagram color coded with the Sequential Colormap}
   \label{fig:colormap_hier}
 \end{figure}
 
@@ -37,11 +37,11 @@ The divergent colormap can be used to analyze the activity between revisions. On
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.0\textwidth]{figures/colormap_div_sun.png}
-  \caption{}
+  \caption{Divergent Colormap clamped at $\pm50\%$ metric change}
   \label{fig:colormap_div_sun}
 \end{figure}
 
-We can use the color mapping technique with the treemap in order to try to find interesting pattern occurrences between the LOC metric (i.e. rectangle area) and other arbitrary metrics. On Figure \ref{fig:number_methods}, we have used the Sequential Colormap to illustrate the Number of Methods per Class metric on the last revision of the Exoplayer project. Naturally, large classes tend to have more methods than small ones, but it is also possible to notice three classes with over a hundred methods inside of each, which might indicate code that is very hard to understand and maintain.
+We can also use the color mapping technique with the treemap in order to try to find interesting pattern occurrences between the LOC metric (i.e. rectangle area) and other arbitrary metrics. On Figure \ref{fig:number_methods}, we have used the Sequential Colormap to illustrate the Number of Methods per Class metric on the last revision of the Exoplayer project. Naturally, large classes tend to have more methods than small ones, but it is also possible to notice three classes with over a hundred methods inside of each, which might indicate code that is very hard to understand and maintain.
 
 \begin{figure}[H]
   \centering

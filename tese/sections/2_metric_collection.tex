@@ -22,20 +22,20 @@ The need for filtering and normalization of the acquired datasets is explained o
 
 \section{Version Control System} \label{sec:git}
 
-In order to estimate VCS popularity we will use Google Trends data collected from January 2004 to November 2016 on the most used systems according to the 2015 Stack Overflow Developers Survey \cite{ref:stackoverflow}. Google Trends allows comparison between the number of Google searches related to a particular system relative to the total search volume. A world map also points out which is the most popular system in each country.
+In order to estimate VCS popularity, we will use Google Trends data collected from January 2004 to November 2016 on the most used systems according to the 2015 Stack Overflow Developers Survey \cite{ref:stackoverflow}. Google Trends allows comparison between the number of Google searches related to a particular system relative to the total search volume. A world map also points out which is the most popular system in each country.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{figures/vcs_pop.png}
-	\caption{The variable in the graph represents the global search interest relative to the highest point on the chart through time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular as it once was.}
+	\caption{The variable in the graph represents the global search interest relative to the highest point on the chart through time.}
 	\label{fig:vcs_pop}
 \end{figure}
 
 Based on this data, we can confirm that Git is currently the most popular VCS and that it's popularity is steadily increasing.
 
-According to GitHub co-founder Scott Chacon on the book Pro Git\cite{ref:progit}, the major difference between Git and any other VCS is the way Git "thinks" about its data. Conceptually, most other systems (e.g. SVN, Mercurial and CVS) store information as a list of file-based changes, meaning that in a source file with a hundred lines of code, if three new lines are added, only these three lines with their meta data are going to be stored in the new revision. Git, instead, stores its data as a series of snapshots of the file system, which mean that the hundred and three lines of code are redundantly (even though compressed) saved into the repository when the changes are committed.
+According to GitHub co-founder Scott Chacon on the book Pro Git \cite{ref:progit}, the major difference between Git and any other VCS is the way Git "thinks" about its data. Conceptually, most other systems (e.g. SVN, Mercurial and CVS) store information as a list of file-based changes, meaning that in a source file with a hundred lines of code, if three new lines are added, only these three lines with their meta data are going to be stored in the new revision. Git, instead, stores its data as a series of snapshots of the file system, which mean that the hundred and three lines of code are redundantly (even though compressed) saved into the repository when the changes are committed.
 
-Despite that, according to the Git Wiki\cite{ref:gitwiki}, Git is much faster than Subversion since all operations (except for push and fetch) are local and there is no network latency. Git's repositories are also much smaller than Subversions (for the Mozilla project, 30x smaller) and Git repository clones act as full repository backups.
+Despite that, according to \citet{ref:gitwiki}, Git is much faster than Subversion since all operations (except for push and fetch) are local and there is no network latency. Git's repositories are also much smaller than Subversions (for the Mozilla project, 30x smaller) and Git repository clones act as full repository backups.
 
 One of the reasons for the smaller repository size is that an SVN working directory always contains two copies of each file: one for the user to actually work with and another hidden in the \textit{.svn/} folder to aid operations such as status, diff and commit. In contrast a Git working directory requires only one small index file that stores about 100 bytes of data per tracked file. On projects with a large number of files this can be a substantial difference in the disk space required per working copy.
 
@@ -44,7 +44,8 @@ Every time a commit is made in Git, the differences are not recorded, instead, i
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/git_architecture.png}
-	\caption{Git tree organization (image from https://www.hackerearth.com/)}
+	\caption{Git tree organization}
+	\legend{Source: \url{https://www.hackerearth.com/}}
 	\label{fig:git_architecture}
 \end{figure}
 
