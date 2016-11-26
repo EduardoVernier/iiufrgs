@@ -28,7 +28,7 @@ The first is the Streamgraph, inspired on the design present on the SolidTA tool
 
 One characteristic of the Streamgraph is that it can naturally represent the global evolution of an attribute through time. Figure \ref{fig:stream_all_loc} shows the evolution of the LOC metric on ExoPlayer for the 15 earlier mentioned months. The biggest insight that we can extract from this visualization is not about ExoPlayer, but about our own technique.
 
-As Frederick Brooks put it in his famous article "No Silver Bullet" \cite{brooks1987}, "All successful software gets changed", and we can certainly relate change in code with increase in size. Using \textit{git checkout} commands and the CLOC tool %TODO add ref
+As Frederick Brooks put it in his famous article "No Silver Bullet" \cite{brooks1987}, "All successful software gets changed", and we can certainly relate change in code with increase in size. Using \textit{git checkout} commands and the CLOC tool \cite{ref:cloc}
 , we discovered that in the analyzed period of time the ExoPlayer project has evolved from 18.4KLOC (thousand of lines of Java code) to 42.2KLOC, almost doubling the number of classes from 169 in December 2014 to 332 in February 2016. Yet, due to the filtering process (see section \ref{sec:filtering}) that is imposed given the limitations of state of the art projection techniques, we can't see this change, supposedly because we were only able to analyze 117 of the total number of classes. Additionally, one can argue (and later, on figure \ref{fig:spectro_exo}, confirm) that our classes are in a very stable state (fact that might relate to their time of creation) and that the time that classes evolve the most is right after their creation.
 
 \begin{figure}[H]
