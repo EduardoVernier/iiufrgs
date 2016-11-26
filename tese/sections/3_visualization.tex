@@ -7,7 +7,6 @@ Discussions that relate image perception and cognitive understanding can be trac
 
 The resulting visual representation can be used to both to confirm the known, (i.e. validating the fit a given model with a dataset) and discovering the unknown (i.e. creating insight that supports a new model in the data). But first, we need first to recognize when visualization is actually useful. As questioned by \citet{ref:scivis}, if a question can be answered by a compact, precise query (e.g. what is most complex class in a given package), why visualize? Or if a decision can be automated, why put a human in the process?
 
-%TODO: improve this part later
 Visualization be can useful in many applications. For example, when there's too much data and we don't have time to analyze or make sense of it all, allowing for a overview of the data's features. It is useful to get insight about distribution, correlations, behavior, and relationships. It can also be useful to answer qualitative and complex questions. Lastly, it is fundamental for communication.
 
 The challenge of creating a good visualization lies in tailoring visual representations that objectively communicate features of the data. When our representations are not suitable, as recognized by van Vijk on figure \ref{fig:botanic}, visualization might not be very helpful. Bad representations might also lead to a visual result that is in misalignment with the original data, and as stated by Edward Tufte, "clutter and confusion are failures of design, not attributes of information".
@@ -18,7 +17,6 @@ The challenge of creating a good visualization lies in tailoring visual represen
 	\caption {van Wijk questions: "Botanic visualization contents of a hard disk. Useful or just a nice picture?"}
 	\label{fig:botanic}
 	\legend{Source: \cite{wijk05}}
-  %TODO add ref
 \end{figure}
 
 The dataset we are trying to understand (illustrated as A on Figure \ref{fig:data_pipeline}) is a set of $R$ revisions where each revision $r_{t}$ $\in$ [$r_{s}, r_{e}$] \hspace{0.2cm}is a set of entities $E = \{ e_{i}\}$ $\subset$ $\mathbb{R}^{n}$ that portray a feature vector of $n = 43$ real-valued quality metrics of a given software class.

@@ -12,7 +12,7 @@ Software Quality Metrics are measurements that relate to properties of a piece o
 
 Figure \ref{fig:data_pipeline} illustrates the pipeline that takes a software repository and outputs the two datasets (A and B) that are used in our visualization tool.
 
-The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as CVS, Subversion, Perforce, Mercurial, Bazaar and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency in the use of resources, performance, and simplicity to "walk" between revisions, are taken into consideration. More details on the discussion are presented on section \ref{sec:git}
+The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as Subversion, Perforce, Mercurial, Bazaar, CVS, and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency in the use of resources, performance, and simplicity to "walk" between revisions are taken into consideration. More details on the discussion are presented on section \ref{sec:git}
 
 The choice of Metric Extraction tool is discussed in section \ref{sec:understand}.
 
@@ -135,9 +135,9 @@ Table \ref{tab:comp} shows a score from 0 to 5 related to requirements measured 
 \end{table}
 
 \section{Metric Extraction} \label{sec:extraction}
-Once we had settled on Git and Scitools Understand as VCS and metric collector, we built a tool that takes as argument a repository URL (e.g. \url{https://github.com/google/ExoPlayer.git}) or a path to an already checked-out on disk repository and outputs a collection of files that represent the metric values for a set of revisions. The number $n$ of revisions to be extracted from the repository is also given as an argument along with an optional $T_{start}$ -- $T_{end}$ interval. The JMeter project, for example, has currently 12,647 commits. If we input 100 as the number of revisions, the first to be extracted will be the last commited revision, after that, we walk 126 steps back on the commit tree and check-out the next one. The process continues consecutively for the remaining revisions.
+Once we had settled on Git and Scitools Understand as VCS and metric collector, we built a tool that takes as argument a repository URL (e.g. \url{https://github.com/google/ExoPlayer.git}) or a path to an already checked-out on disk repository and outputs a collection of files that represent the metric values for a set of revisions. The number $n$ of revisions to be extracted from the repository is also given as an argument along with an optional $T_{start}$ -- $T_{end}$ interval. The JMeter project, for example, has currently 12,647 commits. If we input 100 as the number of revisions, the first to be extracted will be the last committed revision, after that, we walk 126 steps back on the commit tree and check-out the next one. The process continues consecutively for the remaining revisions.
 
-We thought of two approaches to perform metric extraction. The first would be to create $n$ directories and for each of them, check-out all source files from the $i$th revision. This is the easiest method but is slow and space inefficient, as files from previous commits that have not undergone changes must be decompressed and written to disk unnecessarily.
+We thought of two approaches to perform metric extraction. The first would be to create $n$ directories and for each of them, check-out all source files from the $i$th revision. This is the easiest method but it is slow and space inefficient, as files from previous commits that have not undergone changes must be decompressed and written to disk unnecessarily.
 
 The second approach was the one we chose to work with. First, check-out every Java source file from the last revision to a single "dump" directory, disregarding the original directory structure. Considering Git keeps all it's past files compressed in the .git folder, this process is very fast and requires no online access to the repository --- this is crucial, considering the operation is repeated several times.
 
@@ -145,7 +145,7 @@ With all files checked-out in the dump directory, all alphanumeric SHA-1 file an
 
 When the metric calculation is complete, it takes the next selected commit and, comparing it's file/directory keys to the current state on the Trie tree, checks which files or groups of files are already loaded into disk. It also checks which of the files that are currently checked into disk are not present in the next revision and deletes them. The Trie tree is then updated for the current revision. The quality metrics are then extracted and this step is repeated for the remaining $n-1$ revisions.
 
-The \textit{metric} directory for the JMeter project with 20 analysed revisions looks like Figure \ref{fig:jmeter_folder} where each file is CSV formatted collection of 43 attributes.
+The \textit{metric} directory for the JMeter project with 20 analyzed revisions looks like Figure \ref{fig:jmeter_folder} where each file is CSV formatted collection of 43 attributes.
 
 \begin{figure}[H]
 	\centering
