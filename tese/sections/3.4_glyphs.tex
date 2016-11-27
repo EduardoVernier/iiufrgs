@@ -11,16 +11,16 @@ Figure \ref{fig:count_line} illustrates the initial tool set-up. Both the radius
   \label{fig:count_line}
 \end{figure}
 
-One example of use case is to change the color mapping to represent another metric. On figure \ref{fig:max_inh_tree}, the maximum inheritance tree depth metric for each class is coded in the glyph's color. This rich visualization allows us to reason about three different aspects of the data: entities's similarity (given by position), class size (given by the radius), and the number of intermediate classes between each data point and the root class of its inheritance tree (encoded in the color).
+One example of use case is to change the color mapping to represent another metric. On Figure \ref{fig:max_inh_tree}, the maximum inheritance tree depth metric for each class is coded in the glyph's color. This rich visualization allows us to reason about three different aspects of the data: entities's similarity (given by position), class size (given by the radius), and the number of intermediate classes between each data point and the root class of its inheritance tree (encoded in the color).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/max_inh_tree.png}
-  \caption{LOC metric displayed in both radius and color attributes}
+  \caption{LOC metric encoded in entity radius and inheritance tree depth depicted in the color}
   \label{fig:max_inh_tree}
 \end{figure}
 
-In order to add information about change of metric value to the projection, we have designed the glyph illustrated on figure \ref{fig:glyphs1}. The glyph's radius represents the normalized value of the metric in the current revision, and the angle of the pie section amounts to the percentual change in metric value from revision $T_{n-1}$ to $T_{n}$. If the metric increases in value, a pie section of larger radius is added to the top of the glyph, otherwise a pie section of smaller radius is placed on the bottom of the glyph representing the reduction percentage.
+In order to add information about change of metric value to the projection, we have designed the glyph illustrated on Figure \ref{fig:glyphs1}. The glyph's radius represents the normalized value of the metric in the current revision, and the angle of the pie section amounts to the percentual change in metric value from revision $T_{n-1}$ to $T_{n}$. If the metric increases in value, a pie section of larger radius is added to the top of the glyph, otherwise a pie section of smaller radius is placed on the bottom of the glyph representing the reduction percentage.
 
 \begin{figure}[H]
   \centering

@@ -12,7 +12,7 @@ Each node is capable of generating attraction and repulsion forces. Two linked n
 
 If a node is able to move (i.e. package representative or root), the sum of the forces acting upon it as well as its current velocity dictate its position on the next iteration, creating a system that simulates particle momentum. This system iterates until it reaches equilibrium, which is only broken when we move to the next revision and node positions change. In which case, the system smoothly transitions to a new stable configuration.
 
-Figure \ref{fig:hier_graph_synth} is an example of a stable configuration for a simple hierarchy. Figure \ref{fig:hier_sim_graph} shows the same scenario for a more complex dataset (117 classes). With this number of classes it is already impossible to get any hierarchical insight. But if we are only interested in understanding the $\mathbb{R}^{n}$ neighborhood of a couple of packages, figure \ref{fig:hier_two_sim_graph} shows that it is possible to do so through filtering.
+Figure \ref{fig:hier_graph_synth} is an example of a stable configuration for a simple hierarchy. Figure \ref{fig:hier_sim_graph} shows the same scenario for a more complex dataset (117 classes). With this number of classes it is already impossible to get any hierarchical insight. But if we are only interested in understanding the $\mathbb{R}^{n}$ neighborhood of a couple of packages, Figure \ref{fig:hier_two_sim_graph} shows that it is possible to do so through filtering.
 
 \begin{figure}[H]
 	\centering
@@ -39,7 +39,7 @@ Figure \ref{fig:hier_graph_synth} is an example of a stable configuration for a 
 
 This experiment was an attempt to find correlation between similarity of classes and their location in th project structure. The conclusion we arrived at is that, for our datasets, there is none. Which is an interesting result nevertheless.
 
-Our other goal was to encode similarity on the Treemap. In order to do so, we computed the $\mathbb{R}^{n}$ distances between every pair of points, selecting only the 1\% closest points. Between each pair in this set, we drew a line which uses the opacity to communicate the strength of the resemblance between the two points. The result for a single revision can be seen on figure \ref{fig:treemap_similarity}. It is interesting to see as the project evolves, how these relationships change.
+Our other goal was to encode similarity on the Treemap. In order to do so, we computed the $\mathbb{R}^{n}$ distances between every pair of points, selecting only the 1\% closest points. Between each pair in this set, we drew a line which uses the opacity to communicate the strength of the resemblance between the two points. The result for a single revision can be seen on Figure \ref{fig:treemap_similarity}. It is interesting to see as the project evolves, how these relationships change.
 
 \begin{figure}[H]
   \centering
@@ -48,7 +48,7 @@ Our other goal was to encode similarity on the Treemap. In order to do so, we co
   \label{fig:treemap_similarity}
 \end{figure}
 
-One future improvement would be to use \citet{ref:holten06} approach with edge bundling to encode the similarity between nodes, as presented in figure \ref{fig:holten}.
+One future improvement would be to use \citet{ref:holten06} approach with edge bundling to encode the similarity between nodes, as presented in Figure \ref{fig:holten}.
 
 \begin{figure}[H]
   \centering

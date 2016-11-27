@@ -2,7 +2,7 @@
 \section{Visualizing Evolution} \label{sec:evolution}
 So far we are able to reason about the similarity of entities, their hierarchical relationships, their current metric values for any given collected revision, and the metric value change from revision $t_{i}$ to $t_{i+1}$. What we yet cannot do is to intuitively display the evolution of a set of entities throughout large time intervals. With this in mind, we've implemented two visualization techniques.
 
-The first is the Streamgraph, inspired on the design present on the SolidTA tool \cite{ref:solid} illustrated on figure \ref{fig:flow_solid}. It subdivides the screen space vertically into $T$ sections, where $T$ is the number of revisions being analyzed. Then, for an arbitrary number of selected classes, it draws a lines where the height at any given time subdivision represents the  value of a chosen metric at that moment. This information can be emphasized by color coding (with one the colormaps introduced on section \ref{sec:colormap}) the line section with the same metric attribute, as exemplified on figures \ref{fig:stream_10_loc} and \ref{fig:stream_10_loc_div} for 10 entities of the ExoPlayer project and the lines of code metric between the December 2014 and February 2016.
+The first is the Streamgraph, inspired on the design present on the SolidTA tool \cite{ref:solid} illustrated on Figure \ref{fig:flow_solid}. It subdivides the screen space vertically into $T$ sections, where $T$ is the number of revisions being analyzed. Then, for an arbitrary number of selected classes, it draws a lines where the height at any given time subdivision represents the  value of a chosen metric at that moment. This information can be emphasized by color coding (with one the colormaps introduced on Section \ref{sec:colormap}) the line section with the same metric attribute, as exemplified on Figures \ref{fig:stream_10_loc} and \ref{fig:stream_10_loc_div} for 10 entities of the ExoPlayer project and the lines of code metric between the December 2014 and February 2016.
 
 \begin{figure}[H]
 	\centering
@@ -28,8 +28,7 @@ The first is the Streamgraph, inspired on the design present on the SolidTA tool
 
 One characteristic of the Streamgraph is that it can naturally represent the global evolution of an attribute through time. Figure \ref{fig:stream_all_loc} shows the evolution of the LOC metric on ExoPlayer for the 15 earlier mentioned months. The biggest insight that we can extract from this visualization is not about ExoPlayer, but about our own technique.
 
-As Frederick Brooks put it in his famous article "No Silver Bullet" \cite{brooks1987}, "All successful software gets changed", and we can certainly relate change in code with increase in size. Using \textit{git checkout} commands and the CLOC tool \cite{ref:cloc}
-, we discovered that in the analyzed period of time the ExoPlayer project has evolved from 18.4KLOC (thousand of lines of Java code) to 42.2KLOC, almost doubling the number of classes from 169 in December 2014 to 332 in February 2016. Yet, due to the filtering process (see section \ref{sec:filtering}) that is imposed given the limitations of state of the art projection techniques, we can't see this change, supposedly because we were only able to analyze 117 of the total number of classes. Additionally, one can argue (and later, on figure \ref{fig:spectro_exo}, confirm) that our classes are in a very stable state (fact that might relate to their time of creation) and that the time that classes evolve the most is right after their creation.
+As Frederick Brooks put it in his famous article "No Silver Bullet" \cite{brooks1987}, "All successful software gets changed", and we can certainly relate change in code with increase in size. Using \textit{git checkout} commands and the CLOC tool \cite{ref:cloc}, we discovered that in the analyzed period of time the ExoPlayer project has evolved from 18.4KLOC (thousand of lines of Java code) to 42.2KLOC, almost doubling the number of classes from 169 in December 2014 to 332 in February 2016. Yet, due to the filtering process (see Section \ref{sec:filtering}) that is imposed given the limitations of state of the art projection techniques, we can't see this change, supposedly because we were only able to analyze 117 of the total number of classes. Additionally, one can argue (and later, on Figure \ref{fig:spectro_exo}, confirm) that our classes are in a very stable state (fact that might relate to their time of creation) and that the time that classes evolve the most is right after their creation.
 
 \begin{figure}[H]
   \centering
@@ -40,7 +39,7 @@ As Frederick Brooks put it in his famous article "No Silver Bullet" \cite{brooks
 
 The impression given by our visualization is that the size of the project hasn't increased significantly during the studied period, but we know that this is not true. In fact, an increase of 129\% in the number of lines of code has taken place during this time.
 
-This artifact is not a one-off occurrence, the same can be seen on projects such as RxJava (figure \ref{fig:stream_rxjava}), Google Closure (figure \ref{fig:stream_closure}), and Eclipse Vert.x (figure \ref{fig:stream_closure}).
+This artifact is not a one-off occurrence, the same can be seen on projects such as RxJava (Figure \ref{fig:stream_rxjava}), Google Closure (Figure \ref{fig:stream_closure}), and Eclipse Vert.x (Figure \ref{fig:stream_closure}).
 
 \begin{figure}[H]
   \centering
@@ -67,7 +66,7 @@ This artifact is a result of the filtering process, but not all datasets need fi
 
 The other evolution visualization tool we implemented is the Spectrograph. In contrast to the Streamgraph, it uses a fixed line height and relies solely on color to communicate metric value at each instant. The Spectrograph excels at presenting the distribution of the data and element-wise evolution. Additionally, similar to the Treemap, it is uses all "real state" available for display of data.
 
-Figure \ref{fig:spectro_exo} is different portrayal of the same data on figure \ref{fig:stream_all_loc}. Because we cannot see a lot horizontal change, it confirms our suspicions about the stability of the data points.
+Figure \ref{fig:spectro_exo} is different portrayal of the same data of Figure \ref{fig:stream_all_loc}. Because we cannot see a lot horizontal change, it confirms our suspicions about the stability of the data points.
 
 \begin{figure}[H]
   \centering
@@ -76,7 +75,7 @@ Figure \ref{fig:spectro_exo} is different portrayal of the same data on figure \
   \label{fig:spectro_exo}
 \end{figure}
 
-Similar to the Streamgraph, the Spectrograph can show the evolution of any metric for a set of entities. In figures \ref{fig:spectro_lack_exo} and \ref{fig:spectro_lack_rxjava}, we compare the distribution of the Percent Lack Of Cohesion metric distributions between the ExoPlayer and RxJava projects. Cohesion is an important concept in OOP \cite{chidamber1994}, as it indicates whether a class represents a single abstraction or multiple abstractions. Cohesiveness of methods within a class is desirable, since it promotes encapsulation. Lack of cohesion suggests that classes should probably be split into two or more sub-classes, decreasing complexity and reducing the likelihood of errors during the development process. Therefore, through this somewhat inelegant metric name, we get the understanding that lower metric values represent a better situation. What suggests that the RxJava project (or at least it's filtered classes) has a better, least prone to errors, design than ExoPlayer.
+Similar to the Streamgraph, the Spectrograph can show the evolution of any metric for a set of entities. In Figures \ref{fig:spectro_lack_exo} and \ref{fig:spectro_lack_rxjava}, we compare the distribution of the Percent Lack Of Cohesion metric distributions between the ExoPlayer and RxJava projects. Cohesion is an important concept in OOP \cite{chidamber1994}, as it indicates whether a class represents a single abstraction or multiple abstractions. Cohesiveness of methods within a class is desirable, since it promotes encapsulation. Lack of cohesion suggests that classes should probably be split into two or more sub-classes, decreasing complexity and reducing the likelihood of errors during the development process. Therefore, through this somewhat inelegant metric name, we get the understanding that lower metric values represent a better situation. What suggests that the RxJava project (or at least it's filtered classes) has a better, least prone to errors, design than ExoPlayer.
 
 \begin{figure}[H]
   \centering
