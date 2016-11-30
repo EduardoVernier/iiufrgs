@@ -12,13 +12,7 @@ Software Quality Metrics are measurements that relate to properties of a piece o
 
 Figure \ref{fig:data_pipeline} illustrates the pipeline that takes a software repository and outputs the two datasets (A and B) that are used in our visualization tool.
 
-The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as Subversion, Perforce, Mercurial, Bazaar, CVS, and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency in the use of resources, performance, and simplicity to "walk" between revisions are taken into consideration. More details on the discussion are presented on Section \ref{sec:git}
-
-The choice of Metric Extraction tool is discussed in Section \ref{sec:understand}.
-
-The method developed to take revision files and generate a collection of raw metric tables scalably is featured on Section \ref{sec:extraction}.
-
-The need for filtering and normalization of the acquired datasets is explained on Section \ref{sec:filtering}.
+The first step to collecting data from repositories is choosing what Version Control Systems to use. There are many options such as Subversion, Perforce, Mercurial, Bazaar, CVS, and Git. To choose one over the others, aspects such as popularity for Open Source projects, efficiency in the use of resources, performance, and simplicity to "walk" between revisions are taken into consideration. More details on the discussion are presented on Section \ref{sec:git}. The choice of Metric Extraction tool is discussed in Section \ref{sec:understand}. The method developed to take revision files and generate a collection of raw metric tables scalably is featured on Section \ref{sec:extraction}. The need for filtering and normalization of the acquired datasets is explained on Section \ref{sec:filtering}.
 
 \section{Version Control System} \label{sec:git}
 
@@ -159,4 +153,4 @@ More details and source code can be found at \url{https://github.com/EduardoVern
 \section{Dataset Filtering and Normalization} \label{sec:filtering}
 Before the datasets are ready for the visualization two last steps are necessary. The first concerns the unsuitability of current dimensionality reduction technique to deal with dynamic datasets, i.e. collections where members are created or deleted between consecutive time moments. What this implies is that all classes that we are analyzing must be present from the first selected commit up until the last one, which means that a considerable percentage of the project's classes must be filtered from the dataset. As far as we know, no multidimensional projection technique fits this requirement.
 
-The second step is normalization. This is necessary because some metric range from 0 to 1 (e.g comments ratio) and others don't have a specific delimited range (e.g lines of code), therefore the dimensionality reduction technique will associated different weights to different metric value changes (which is not ideal). To perform the data normalization, we must first extract the average value and standard deviation of each attribute. Then for each sample, we subtract the corresponding average and divide the result by the standard deviation. What this guarantees is that the average for each feature is zero and the standard deviation through time is one, allowing unbiased projection calculations.
+The second step is normalization. This is necessary because some metric range from 0 to 1 (e.g comments ratio) and others don't have a specific delimited range (e.g lines of code), therefore the dimensionality reduction technique will associated different weights to different metric value changes (which is not ideal). To perform the data normalization, we must first extract the average value and standard deviation of each attribute. Then for each sample, we subtract the corresponding average and divide the result by the standard deviation. This guarantees that the average for each feature is zero and the standard deviation through time is one, allowing unbiased projection calculations.
